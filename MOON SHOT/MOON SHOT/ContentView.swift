@@ -67,11 +67,9 @@ struct ContentView: View {
                     .font(.system(size: 10))
             }
             }
-            .padding()
-            
+            .edgesIgnoringSafeArea(.all)
         }
     }
-        
 }
 
 struct ContentView_Previews: PreviewProvider {

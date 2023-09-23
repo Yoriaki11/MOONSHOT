@@ -59,10 +59,16 @@ struct ContentView: View {
                     }
                 }
                  .padding()
-
+                Text("Good habits are the key to all success.")
+                Text("Bad habits are the unlocked door to failure.")
+                Text("“失敗者と成功者の間にあるたった一つの違いは「習慣」の違いだ”")
+                    .font(.system(size: 10))
+                Text("「世界最強の商人　著：オグ・マンディーノ」より抜粋")
+                    .font(.system(size: 10))
             }
             }
             .padding()
+            
         }
     }
         
@@ -71,5 +77,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(TO_DO_LIST_Data())
+            .environmentObject(DREAMLISTDATA())
     }
 }

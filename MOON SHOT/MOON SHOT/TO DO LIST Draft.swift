@@ -12,7 +12,7 @@ struct TO_DO_LIST_Draft: View {
     @EnvironmentObject var to_DO_LIST_Data: TO_DO_LIST_Data
     
     var body: some View {
-        TextField("タスクを入力してください",text: $taskTitle,onCommit:{
+        TextField("あなたのタスクを入力してください",text: $taskTitle,onCommit:{
             self.createTask()
             self.to_DO_LIST_Data.isEditing = false
         })

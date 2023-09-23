@@ -12,6 +12,8 @@ struct MOON_SHOTApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(TO_DO_LIST_Data())
+                .environmentObject(DREAMLISTDATA())
         }
     }
 }

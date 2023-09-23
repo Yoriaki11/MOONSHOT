@@ -79,5 +79,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
             .environmentObject(TO_DO_LIST_Data())
             .environmentObject(DREAMLISTDATA())
+            .environmentObject(HabitListData())
     }
 }

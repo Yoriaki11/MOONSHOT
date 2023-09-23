@@ -14,6 +14,7 @@ struct MOON_SHOTApp: App {
             ContentView()
                 .environmentObject(TO_DO_LIST_Data())
                 .environmentObject(DREAMLISTDATA())
+                .environmentObject(HabitListData())
         }
     }
 }

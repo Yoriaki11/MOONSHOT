@@ -12,7 +12,7 @@ struct DREAMLISTDRAFT: View {
     @EnvironmentObject var dREAMLISTDATA: DREAMLISTDATA
     
     var body: some View {
-        TextField("あなたの夢を入力してください", text: $taskTitle,onCommit: {
+        TextField("夢や目標を入力してください", text: $taskTitle,onCommit: {
                 self.createTask()
         })
     }

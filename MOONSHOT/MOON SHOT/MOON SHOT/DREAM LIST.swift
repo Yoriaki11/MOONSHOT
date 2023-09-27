@@ -6,25 +6,25 @@
 //
 
 import SwiftUI
-
-
+import CoreData
 
 struct DREAM_LIST: View {
     @EnvironmentObject var dREAMLISTDATA:DREAMLISTDATA
     
+    @Environment(\.managedObjectContext) var viewContext
+    @FetchRequest(sortDescriptors: [])
+    var tasks: FetchedResults<Dream>
+    
     var body: some View {
             NavigationView{
                 List{
-                    ForEach(dREAMLISTDATA.tasks){task in
+                    ForEach(tasks){task in
                         Button(action: {
-                            guard let index = self.dREAMLISTDATA.tasks.firstIndex(of: task)else{
-                                return
-                            }
-                            
-                            self.dREAMLISTDATA.tasks[index].checked.toggle()
+                            task.checked.toggle()
                         })
-                        {
-                            DREAMLISTROW(task: task.title, isCheck: task.checked)
+                        {if((task.title?.isEmpty) == false){
+                            DREAMLISTROW(task: task.title!, isCheck: task.checked)
+                        }
                         }
                         
                     }
@@ -55,8 +55,17 @@ struct DREAM_LIST: View {
             }
             
             func DeleteTask() {
-                let necessaryTask = self.dREAMLISTDATA.tasks.filter({!$0.checked})
-                self.dREAMLISTDATA.tasks = necessaryTask
+                for task in tasks {
+                    if(task.checked){
+                        viewContext.delete(task)
+                    }
+                }
+                
+                do{
+                    try viewContext.save()
+                } catch {
+                    fatalError("セーブに失敗")
+                }
             }
         }
         

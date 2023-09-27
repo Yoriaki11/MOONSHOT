@@ -6,25 +6,25 @@
 //
 
 import SwiftUI
-
-
+import CoreData
 
 struct TO_DO_LIST: View {
     @EnvironmentObject var to_DO_LIST_Data: TO_DO_LIST_Data
     
+    @Environment(\.managedObjectContext) var viewContext
+    @FetchRequest(sortDescriptors: [])
+    var tasks: FetchedResults<Todo>
+    
     var body: some View {
         NavigationView{
             List{
-                ForEach(to_DO_LIST_Data.tasks) { task in
+                ForEach(tasks) { task in
                     Button(action: {
-                        guard let index = self.to_DO_LIST_Data.tasks.firstIndex(of: task) else{
-                            return
-                        }
-                        
-                        self.to_DO_LIST_Data.tasks[index].checked.toggle()
+                        task.checked.toggle()
                     })
                     {
-                        TO_DO_LIST_Row(task: task.title, isCheck: task.checked)
+                        if((task.title?.isEmpty) == false){ TO_DO_LIST_Row(task: task.title!, isCheck: task.checked)
+                        }
                     }
                 }
                 
@@ -52,10 +52,18 @@ struct TO_DO_LIST: View {
         }
     }
     func DeleteTask(){
-        let necessaryTask = self.to_DO_LIST_Data.tasks.filter({!$0.checked})
-        self.to_DO_LIST_Data.tasks = necessaryTask
+        for task in tasks {
+            if(task.checked){
+                viewContext.delete(task)
+            }
+        }
+        
+        do{
+            try viewContext.save()
+        } catch {
+            fatalError("セーブに失敗")
+        }
     }
-    
 }
 
 struct TO_DO_LIST_Previews: PreviewProvider {

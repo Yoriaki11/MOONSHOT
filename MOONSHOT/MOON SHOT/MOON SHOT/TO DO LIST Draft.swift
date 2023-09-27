@@ -11,6 +11,8 @@ struct TO_DO_LIST_Draft: View {
     @State var taskTitle = ""
     @EnvironmentObject var to_DO_LIST_Data: TO_DO_LIST_Data
     
+    @Environment(\.managedObjectContext) var viewContext
+    
     var body: some View {
         TextField("タスクを入力してください",text: $taskTitle,onCommit:{
             self.createTask()
@@ -20,9 +22,17 @@ struct TO_DO_LIST_Draft: View {
         
     }
     func createTask(){
-        let newTask = Task(title: self.taskTitle,checked:false)
-        self.to_DO_LIST_Data.tasks.insert(newTask, at: 0)
+        let newTask = Todo(context: viewContext)
+        newTask.title = self.taskTitle
+        newTask.checked = false
         self.taskTitle = ""
+        
+        do{
+            try viewContext.save()
+        }catch {
+            fatalError("セーブに失敗")
+        }
+        
     }
 }
 

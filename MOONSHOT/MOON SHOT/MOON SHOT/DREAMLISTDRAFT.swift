@@ -11,15 +11,25 @@ struct DREAMLISTDRAFT: View {
     @State var taskTitle = ""
     @EnvironmentObject var dREAMLISTDATA: DREAMLISTDATA
     
+    @Environment(\.managedObjectContext) var viewContext
+    
     var body: some View {
         TextField("夢や目標を入力してください", text: $taskTitle,onCommit: {
                 self.createTask()
+                self.dREAMLISTDATA.isEditing = false
         })
     }
     func createTask(){
-        let newTask = TaskD(title: self.taskTitle, checked: false)
-        self.dREAMLISTDATA.tasks.insert(newTask, at: 0)
+        let newTask = Dream(context: viewContext)
+        newTask.title = self.taskTitle
+        newTask.checked = false
         self.taskTitle = ""
+        
+        do{
+            try viewContext.save()
+        }catch {
+            fatalError("セーブに失敗")
+        }
     }
 }
 

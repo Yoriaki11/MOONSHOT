@@ -9,11 +9,18 @@ import SwiftUI
 
 @main
 struct MOON_SHOTApp: App {
+    let persistenceController = PersistenceController()
+    let persistenceControllerD = PersistenceControllerD()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(TO_DO_LIST_Data())
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            
                 .environmentObject(DREAMLISTDATA())
+                .environment(\.managedObjectContext, persistenceControllerD.container.viewContext)
+            
                 .environmentObject(HabitListData())
         }
     }

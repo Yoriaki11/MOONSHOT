@@ -11,6 +11,8 @@ struct HabitListDraft: View {
     @State var taskTitle = ""
     @EnvironmentObject var habitListData: HabitListData
     
+    @Environment(\.managedObjectContext) var viewContext
+    
     var body: some View {
       TextField("身に付けたい習慣を入力してください", text: $taskTitle, onCommit: {
           self.createTask()
@@ -19,10 +21,16 @@ struct HabitListDraft: View {
     }
     
     func createTask(){
-        let newTask = TaskH(title: self.taskTitle, checked: false)
-        self.habitListData.tasks.insert(newTask, at: 0)
+        let newTask = Habit(context: viewContext)
+        newTask.title = self.taskTitle
+        newTask.checked = false
         self.taskTitle = ""
         
+        do{
+            try viewContext.save()
+        }catch {
+            fatalError("セーブに失敗")
+        }
     }
 }
 

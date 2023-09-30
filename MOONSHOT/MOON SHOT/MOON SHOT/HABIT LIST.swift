@@ -6,25 +6,27 @@
 //
 
 import SwiftUI
-
+import CoreData
 
 
 struct HABIT_LIST: View {
     @EnvironmentObject var habitListData: HabitListData
     
+    @Environment(\.managedObjectContext) var viewContext
+    @FetchRequest(sortDescriptors: [])
+    var tasks: FetchedResults<Habit>
+    
     var body: some View {
         NavigationView{
             List{
-                ForEach(habitListData.tasks) { task in
+                ForEach(tasks) { task in
                     Button(action: {
-                        guard let index = self.habitListData.tasks.firstIndex(of: task)else{
-                            return
-                        }
-                        
-                        self.habitListData.tasks[index].checked.toggle()
+                        task.checked.toggle()
                     })
                     {
-                        HabitListRow(task: task.title, isCheck: task.checked)
+                        if((task.title?.isEmpty) == false) {
+                            HabitListRow(task: task.title!, isCheck: task.checked)
+                     }
                     }
                     
                 }
@@ -53,8 +55,17 @@ struct HABIT_LIST: View {
         }
     }
     func DeleteTask(){
-        let necessaryTask = self.habitListData.tasks.filter({!$0.checked})
-        self.habitListData.tasks = necessaryTask
+        for task in tasks {
+            if(task.checked){
+                viewContext.delete(task)
+            }
+        }
+        
+        do{
+            try viewContext.save()
+        } catch {
+            fatalError("セーブに失敗")
+        }
     }
     
 }

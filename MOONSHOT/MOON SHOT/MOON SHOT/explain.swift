@@ -17,8 +17,10 @@ struct explain: View {
             
             ZStack{
                 Image("astronaut")
+                    .resizable()
+                    .scaledToFill()
                     .opacity(0.2)
-                
+                    
                 VStack{
                     Text("ムーンショット目標とは")
                         .font(.title)

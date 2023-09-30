@@ -14,7 +14,7 @@ struct TO_DO_LIST_Draft: View {
     @Environment(\.managedObjectContext) var viewContext
     
     var body: some View {
-        TextField("タスクを入力してください",text: $taskTitle,onCommit:{
+        TextField("あなたのタスクを入力してください",text: $taskTitle,onCommit:{
             self.createTask()
             self.to_DO_LIST_Data.isEditing = false
         })

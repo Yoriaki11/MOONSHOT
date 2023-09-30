@@ -21,6 +21,7 @@ struct MOON_SHOTApp: App {
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
             
                 .environmentObject(HabitListData())
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @State var isShowexplain = false
-    @State var isShowWISH_LIST = false
     
     var body: some View {
         NavigationStack {

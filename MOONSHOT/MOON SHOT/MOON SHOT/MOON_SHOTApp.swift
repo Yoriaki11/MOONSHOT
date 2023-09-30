@@ -10,7 +10,6 @@ import SwiftUI
 @main
 struct MOON_SHOTApp: App {
     let persistenceController = PersistenceController()
-    let persistenceControllerD = PersistenceControllerD()
     
     var body: some Scene {
         WindowGroup {
@@ -19,7 +18,7 @@ struct MOON_SHOTApp: App {
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
             
                 .environmentObject(DREAMLISTDATA())
-                .environment(\.managedObjectContext, persistenceControllerD.container.viewContext)
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
             
                 .environmentObject(HabitListData())
         }

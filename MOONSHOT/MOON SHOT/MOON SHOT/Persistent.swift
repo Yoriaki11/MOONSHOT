@@ -11,7 +11,7 @@ struct PersistenceController{
     let container: NSPersistentContainer
     
     init(){
-        container = NSPersistentContainer(name:"ModelT")
+        container = NSPersistentContainer(name:"Model")
         
         container.loadPersistentStores(completionHandler:{(storeDescription,error)in
             if let error = error as NSError? {
